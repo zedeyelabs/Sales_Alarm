@@ -39,6 +39,42 @@
       "progressUpdateIntervalMs": 500
     },
     {
+      "text": "%pyspark\n\nprint \"Hello\"",
+      "user": "info@zedeyelabs.com",
+      "dateUpdated": "Apr 24, 2018 12:48:54 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/python"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "version": "v0",
+      "jobName": "paragraph_1524574123085_1495766742",
+      "id": "20180424-124843_163139589_q_AVXJ1HNZCT1524132517",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "Hello\n"
+      },
+      "dateCreated": "Apr 24, 2018 12:48:43 PM",
+      "dateStarted": "Apr 24, 2018 12:48:54 PM",
+      "dateFinished": "Apr 24, 2018 12:48:54 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
       "title": "Date Definition",
       "text": "%pyspark\n\ntoday \u003d (datetime.today() - td(days\u003d0))\n\nd0 \u003d (today - td(days\u003d1)).date()\nd1 \u003d (today - td(days\u003d2)).date()\nd6 \u003d (today - td(days\u003d6)).date()\nd7 \u003d (today - td(days\u003d8)).date()\nd14 \u003d (today - td(days\u003d15)).date()\nd21 \u003d (today - td(days\u003d22)).date()\nd28 \u003d (today - td(days\u003d29)).date()\nd180 \u003d (today - td(days\u003d180)).date()\n\nprint d0,d1,d6,d7,d14,d21,d28,d180",
       "user": "info@zedeyelabs.com",
