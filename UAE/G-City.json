@@ -4,7 +4,7 @@
       "title": "Import Functions",
       "text": "%pyspark\n\nfrom pyspark.sql import *\nfrom pyspark.sql.functions import col, when, max, min, isnull\nfrom pyspark.sql.functions import count, sum, avg, row_number\nfrom pyspark.sql.functions import desc\nfrom pyspark.sql.functions import col, round\nfrom datetime import datetime, timedelta as td\nfrom pyspark.sql.functions import datediff,to_date,to_timestamp\nfrom pyspark.sql.functions import countDistinct\nfrom pyspark.sql.functions import lit\nfrom pyspark.sql.functions import substring\nfrom pyspark.sql.functions import broadcast\nspark.version",
       "user": "info@zedeyelabs.com",
-      "dateUpdated": "Apr 30, 2018 12:35:35 PM",
+      "dateUpdated": "May 20, 2018 6:02:04 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -33,8 +33,8 @@
         "msg": "u\u00272.2.0\u0027\n"
       },
       "dateCreated": "Apr 8, 2018 9:54:56 AM",
-      "dateStarted": "Apr 30, 2018 12:35:35 PM",
-      "dateFinished": "Apr 30, 2018 12:35:35 PM",
+      "dateStarted": "May 20, 2018 6:02:05 AM",
+      "dateFinished": "May 20, 2018 6:02:05 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -42,7 +42,7 @@
       "title": "Date Definition",
       "text": "%pyspark\n\ntoday \u003d (datetime.today() - td(days\u003d0))\n\nd0 \u003d (today - td(days\u003d1)).date()     # Yesterday\nd1 \u003d (today - td(days\u003d2)).date()     # Day Before Yesterday\nd6 \u003d (today - td(days\u003d6)).date()     # 6 Days back\nd7 \u003d (today - td(days\u003d8)).date()     # -1 week\nd14 \u003d (today - td(days\u003d15)).date()   # -2 week\nd21 \u003d (today - td(days\u003d22)).date()   # -3 week\nd28 \u003d (today - td(days\u003d29)).date()   # -4 week\nd35 \u003d (today - td(days\u003d36)).date()   # -5 week\nd42 \u003d (today - td(days\u003d43)).date()   # -6 week\nd49 \u003d (today - td(days\u003d50)).date()   # -7 week\nd56 \u003d (today - td(days\u003d57)).date()   # -8 week\n\nd180 \u003d (today - td(days\u003d180)).date() # -6 Month\n\nprint d0.strftime(\u0027%A\u0027),d1.strftime(\u0027%A\u0027),d6.strftime(\u0027%A\u0027),d7.strftime(\u0027%A\u0027),d14.strftime(\u0027%A\u0027),d21.strftime(\u0027%A\u0027),d28.strftime(\u0027%A\u0027),d35.strftime(\u0027%A\u0027),d42.strftime(\u0027%A\u0027),d49.strftime(\u0027%A\u0027),d56.strftime(\u0027%A\u0027)\n\nprint d0,d1,d6,d7,d14,d21,d28,d35,d42,d180",
       "user": "info@zedeyelabs.com",
-      "dateUpdated": "Apr 30, 2018 1:34:12 PM",
+      "dateUpdated": "May 20, 2018 6:02:07 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -68,19 +68,19 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "Sunday Saturday Tuesday Sunday Sunday Sunday Sunday Sunday Sunday Sunday Sunday\n2018-04-29 2018-04-28 2018-04-24 2018-04-22 2018-04-15 2018-04-08 2018-04-01 2018-03-25 2018-03-18 2018-03-11 2018-03-04 2017-11-01\n"
+        "msg": "Saturday Friday Monday Saturday Saturday Saturday Saturday Saturday Saturday Saturday Saturday\n2018-05-19 2018-05-18 2018-05-14 2018-05-12 2018-05-05 2018-04-28 2018-04-21 2018-04-14 2018-04-07 2017-11-21\n"
       },
       "dateCreated": "Apr 9, 2018 9:06:40 AM",
-      "dateStarted": "Apr 30, 2018 12:35:37 PM",
-      "dateFinished": "Apr 30, 2018 12:35:38 PM",
+      "dateStarted": "May 20, 2018 6:02:07 AM",
+      "dateFinished": "May 20, 2018 6:02:07 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Sales Calculations",
-      "text": "%pyspark\n\n################### Source Data ######################\n\n\nlot_stk_move \u003d spark.sql(\"select * from dub_gcity.zed_lot_stk_move\")\\\n                        .fillna({\u0027tsm_qty_pack\u0027:\u00270\u0027,\u0027tsm_qty_loose\u0027:\u00270\u0027,\u0027tsm_conv_lsstk\u0027:\u00271\u0027})\\\n                        .withColumn(\"tsm_qty_total\",col(\"tsm_qty_pack\")+col(\"tsm_qty_loose\")/col(\"tsm_conv_lsstk\"))\\\n                        .withColumn(\"tsm_cre_date\",to_date(\"tsm_cre_dt\"))\\\n                        .filter(col(\"tsm_cre_date\")\u003e\u003dd180)\\\n                        .filter(col(\"tsm_cre_date\")\u003ctoday.date())\n\nlot_trn_head \u003d spark.sql(\"select * from dub_gcity.zed_lot_trn_head\").withColumn(\"trxh_cre_date\",to_date(\"trxh_cre_dt\")).filter(col(\"trxh_cre_date\")\u003e\u003dd56)\nbroadcast(lot_trn_head)\n\nlot_stk_move1 \u003d lot_stk_move.join(lot_trn_head,col(\"tsm_doc_no\")\u003d\u003dcol(\"trxh_doc_no\"),\"inner\")\nlot_stk_move1.cache()\n\nProducts \u003d spark.sql(\"select prod_code as tsm_prod_code,prod_desc as Prod_Description,prod_div_code,prod_prsgrp_code from dub_ho.zed_lom_mst_product\")\n\nMaster \u003d spark.sql(\"select camd_entity_code as prod_div_code,camd_entity_desc as Prod_Division from dub_ho.zed_lom_mst_carry_all_detl where camd_entity_group\u003d\u0027DIVISION\u0027\")\n\n################## Data Check #############################\nif(lot_stk_move1.filter(col(\"tsm_cre_dt\")\u003e\u003dto_timestamp(lit((str(d0)+\" 21:00:00\")), \"yyyy-MM-dd HH:mm:ss\")).count()\u003d\u003d0):\n    print(\"No data present for yesterday\")\n    exit()\nelse:\n    print(\"Data present for yesterday\")\n################## Product Classification #################\n\nProduct_Class \u003d lot_stk_move.groupBy(\"tsm_prod_code\")\\\n                            .agg(min(\"tsm_cre_date\").alias(\"Min_Date\"),sum(\"tsm_lc_value\").alias(\"Total_Sales\"),\\\n                                  countDistinct(\"tsm_cre_date\").alias(\"Days_Sold\"),round(avg(\"tsm_lc_price\"),2).alias(\"Avg_Selling_Price\"))\\\n                            .withColumn(\"Total_Days\",datediff(lit(d0),col(\"Min_Date\"))+1)\\\n                            .withColumn(\"Days_Sold_Ratio\",col(\"Days_Sold\")/col(\"Total_Days\"))\\\n                            .withColumn(\"Cum_Sales\",sum(\"Total_Sales\").over(Window.partitionBy().orderBy(desc(\"Total_Sales\"))))\\\n                            .withColumn(\"Store_Sales\",sum(\"Total_Sales\").over(Window.partitionBy()))\\\n                            .withColumn(\"Perc\",col(\"Cum_Sales\")/col(\"Store_Sales\"))\\\n                            .withColumn(\"A_B_C\",when(col(\"Perc\")\u003c\u003d0.80,\"A\").otherwise(when(col(\"Perc\")\u003c\u003d0.95,\"B\").otherwise(\"C\")))\\\n                            .withColumn(\"F_M_S\",when(col(\"Days_Sold_Ratio\")\u003e\u003d0.75,\"F\").otherwise(when(col(\"Days_Sold_Ratio\")\u003e\u003d0.25,\"M\").otherwise(\"S\")))\\\n                            .select(\"tsm_prod_code\",\"Avg_Selling_Price\",\"A_B_C\",\"F_M_S\")\n\n################## Sales Calculation #################\n\nD1_Sales \u003d lot_stk_move1.filter(col(\"tsm_cre_date\")\u003d\u003dd0).groupBy(\"tsm_prod_code\").agg(round(sum(\"tsm_qty_total\"),0).alias(\"D0_Sales\"))\nD2_Sales \u003d lot_stk_move1.filter(col(\"tsm_cre_date\")\u003d\u003dd1).groupBy(\"tsm_prod_code\").agg(round(sum(\"tsm_qty_total\"),0).alias(\"D1_Sales\"))\nD8_Sales \u003d lot_stk_move1.filter(col(\"tsm_cre_date\")\u003d\u003dd7).groupBy(\"tsm_prod_code\").agg(round(sum(\"tsm_qty_total\"),0).alias(\"D7_Sales\"))\nAvg_Sales \u003d lot_stk_move1.filter(col(\"tsm_cre_date\").isin([d14,d21,d28,d35,d42]))\\\n                         .groupBy(\"tsm_prod_code\",\"tsm_cre_date\").agg(round(sum(\"tsm_qty_total\"),0).alias(\"Tot_Sales\"))\\\n                         .withColumn(\"Rank\",row_number().over(Window.partitionBy(\"tsm_prod_code\").orderBy(desc(\"Tot_Sales\"))))\\\n                         .filter(\"Rank\u003d\u003d3\").withColumnRenamed(\"Tot_Sales\",\"Avg_Sales\")\n\nbroadcast(D1_Sales)\nbroadcast(D2_Sales)\nbroadcast(D8_Sales)\nbroadcast(Product_Class)\nbroadcast(Products)\nbroadcast(Master)\n\n\nSales \u003d Product_Class.join(D8_Sales,\"tsm_prod_code\",\"leftouter\")\\\n                     .join(D2_Sales,\"tsm_prod_code\",\"leftouter\")\\\n                     .join(D1_Sales,\"tsm_prod_code\",\"leftouter\")\\\n                     .join(Avg_Sales,\"tsm_prod_code\",\"leftouter\")\\\n                     .join(Products,\"tsm_prod_code\",\"leftouter\")\\\n                     .join(Master,\"prod_div_code\",\"leftouter\").fillna(0)\\\n                     .withColumn(\"Rule_1\",when(col(\"D0_Sales\") \u003c 0.15*col(\"Avg_Sales\"), 1).otherwise(0))\\\n                     .withColumn(\"Rule_2\",when(col(\"D0_Sales\") \u003c 0.15*col(\"D7_Sales\"), 1).otherwise(0))\\\n                     .withColumn(\"Rule_3\",when(col(\"D0_Sales\") \u003c 0.15*col(\"D1_Sales\"), 1).otherwise(0))\\\n                     .withColumn(\"Rules_Broken\",col(\"Rule_1\")+col(\"Rule_2\")+col(\"Rule_3\"))\\\n                     .withColumn(\"Sales_Alert\",when(col(\"Rules_Broken\")\u003e\u003d2,1).otherwise(0))\\\n                     .withColumn(\"Create_Date\",lit(d0))\\\n                     .withColumnRenamed(\"tsm_prod_code\",\"Prod_Code\")\n\n#Sales.printSchema()\n#Sales.orderBy(desc(\"Avg_Sales\")).show(50,False)\nSales.cache()\nprint Sales.count()",
+      "text": "%pyspark\n\n################### Source Data ######################\n\n\nlot_stk_move \u003d spark.sql(\"select * from dub_gcity.zed_lot_stk_move\")\\\n                    .fillna({\u0027tsm_qty_pack\u0027:\u00270\u0027,\u0027tsm_qty_loose\u0027:\u00270\u0027,\u0027tsm_conv_lsstk\u0027:\u00271\u0027})\\\n                    .withColumn(\"tsm_qty_total\",col(\"tsm_qty_pack\")+col(\"tsm_qty_loose\")/col(\"tsm_conv_lsstk\"))\\\n                    .withColumn(\"tsm_cre_date\",to_date(\"tsm_cre_dt\")).withColumn(\"tsm_doc_date\",to_date(\"tsm_doc_date\"))\\\n                    .filter(col(\"tsm_cre_date\")\u003e\u003dd180)\\\n                    .filter(col(\"tsm_cre_date\")\u003ctoday.date())\n\nlot_trn_head \u003d spark.sql(\"select * from dub_gcity.zed_lot_trn_head\")\\\n                    .withColumn(\"trxh_cre_date\",to_date(\"trxh_cre_dt\")).withColumn(\"trxh_doc_date\",to_date(\"trxh_doc_date\"))\\\n                    .filter(col(\"trxh_cre_date\")\u003e\u003dd56)\n\nbroadcast(lot_trn_head)\n\nlot_stk_move1 \u003d lot_stk_move.join(lot_trn_head,col(\"tsm_doc_no\")\u003d\u003dcol(\"trxh_doc_no\"),\"inner\")\nlot_stk_move1.cache()\n\nProducts \u003d spark.sql(\"select prod_code as tsm_prod_code,prod_desc as Prod_Description,prod_div_code,prod_prsgrp_code from dub_ho.zed_lom_mst_product\")\n\nMaster \u003d spark.sql(\"select camd_entity_code as prod_div_code,camd_entity_desc as Prod_Division from dub_ho.zed_lom_mst_carry_all_detl where camd_entity_group\u003d\u0027DIVISION\u0027\")\n\n################## Data Check #############################\nif(lot_stk_move1.filter(col(\"tsm_cre_dt\")\u003e\u003dto_timestamp(lit((str(d0)+\" 21:00:00\")), \"yyyy-MM-dd HH:mm:ss\")).count()\u003d\u003d0):\n    print(\"No data present for yesterday\")\n    exit()\nelse:\n    print(\"Data present for yesterday\")\n################## Product Classification #################\n\nProduct_Class \u003d lot_stk_move.groupBy(\"tsm_prod_code\")\\\n                            .agg(min(\"tsm_doc_date\").alias(\"Min_Date\"),sum(\"tsm_lc_value\").alias(\"Total_Sales\"),\\\n                                  countDistinct(\"tsm_doc_date\").alias(\"Days_Sold\"),round(avg(\"tsm_lc_price\"),2).alias(\"Avg_Selling_Price\"))\\\n                            .withColumn(\"Total_Days\",datediff(lit(d0),col(\"Min_Date\"))+1)\\\n                            .withColumn(\"Days_Sold_Ratio\",col(\"Days_Sold\")/col(\"Total_Days\"))\\\n                            .withColumn(\"Cum_Sales\",sum(\"Total_Sales\").over(Window.partitionBy().orderBy(desc(\"Total_Sales\"))))\\\n                            .withColumn(\"Store_Sales\",sum(\"Total_Sales\").over(Window.partitionBy()))\\\n                            .withColumn(\"Perc\",col(\"Cum_Sales\")/col(\"Store_Sales\"))\\\n                            .withColumn(\"A_B_C\",when(col(\"Perc\")\u003c\u003d0.80,\"A\").otherwise(when(col(\"Perc\")\u003c\u003d0.95,\"B\").otherwise(\"C\")))\\\n                            .withColumn(\"F_M_S\",when(col(\"Days_Sold_Ratio\")\u003e\u003d0.75,\"F\").otherwise(when(col(\"Days_Sold_Ratio\")\u003e\u003d0.25,\"M\").otherwise(\"S\")))\\\n                            .select(\"tsm_prod_code\",\"Avg_Selling_Price\",\"A_B_C\",\"F_M_S\")\n\n################## Sales Calculation #################\n\nD1_Sales \u003d lot_stk_move1.filter(col(\"tsm_doc_date\")\u003d\u003dd0).groupBy(\"tsm_prod_code\").agg(round(sum(\"tsm_qty_total\"),0).alias(\"D0_Sales\"))\nD2_Sales \u003d lot_stk_move1.filter(col(\"tsm_doc_date\")\u003d\u003dd1).groupBy(\"tsm_prod_code\").agg(round(sum(\"tsm_qty_total\"),0).alias(\"D1_Sales\"))\nD8_Sales \u003d lot_stk_move1.filter(col(\"tsm_doc_date\")\u003d\u003dd7).groupBy(\"tsm_prod_code\").agg(round(sum(\"tsm_qty_total\"),0).alias(\"D7_Sales\"))\nAvg_Sales \u003d lot_stk_move1.filter(col(\"tsm_doc_date\").isin([d14,d21,d28,d35,d42]))\\\n                         .groupBy(\"tsm_prod_code\",\"tsm_doc_date\").agg(round(sum(\"tsm_qty_total\"),0).alias(\"Tot_Sales\"))\\\n                         .withColumn(\"Rank\",row_number().over(Window.partitionBy(\"tsm_prod_code\").orderBy(desc(\"Tot_Sales\"))))\\\n                         .filter(\"Rank\u003d\u003d3\").withColumnRenamed(\"Tot_Sales\",\"Avg_Sales\")\n\nbroadcast(D1_Sales)\nbroadcast(D2_Sales)\nbroadcast(D8_Sales)\nbroadcast(Product_Class)\nbroadcast(Products)\nbroadcast(Master)\n\n\nSales_City  \u003d Product_Class.join(D8_Sales,\"tsm_prod_code\",\"leftouter\")\\\n                           .join(D2_Sales,\"tsm_prod_code\",\"leftouter\")\\\n                           .join(D1_Sales,\"tsm_prod_code\",\"leftouter\")\\\n                           .join(Avg_Sales,\"tsm_prod_code\",\"leftouter\")\\\n                           .join(Products,\"tsm_prod_code\",\"leftouter\")\\\n                           .join(Master,\"prod_div_code\",\"leftouter\").fillna(0)\\\n                           .withColumn(\"Rule_1\",when(col(\"D0_Sales\") \u003c 0.15*col(\"Avg_Sales\"), 1).otherwise(0))\\\n                           .withColumn(\"Rule_2\",when(col(\"D0_Sales\") \u003c 0.15*col(\"D7_Sales\"), 1).otherwise(0))\\\n                           .withColumn(\"Rule_3\",when(col(\"D0_Sales\") \u003c 0.15*col(\"D1_Sales\"), 1).otherwise(0))\\\n                           .withColumn(\"Rules_Broken\",col(\"Rule_1\")+col(\"Rule_2\")+col(\"Rule_3\"))\\\n                           .withColumn(\"Sales_Alert\",when(col(\"Rules_Broken\")\u003e\u003d2,1).otherwise(0))\\\n                           .withColumn(\"Create_Date\",lit(d0))\\\n                           .withColumnRenamed(\"tsm_prod_code\",\"Prod_Code\")\n\n#Sales.printSchema()\n#Sales.orderBy(desc(\"Avg_Sales\")).show(50,False)\nSales_City.cache()\nprint Sales_City.count()",
       "user": "info@zedeyelabs.com",
-      "dateUpdated": "Apr 30, 2018 1:00:43 PM",
+      "dateUpdated": "May 20, 2018 6:03:03 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -107,8 +107,8 @@
           "tooltip": "View in Spark web UI",
           "group": "spark",
           "values": [
-            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2F172.31.59.148%3A8088%2Fproxy%2Fapplication_1525083614961_0001/jobs/job?spark\u003dtrue\u0026id\u003d118",
-            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2F172.31.59.148%3A8088%2Fproxy%2Fapplication_1525083614961_0001/jobs/job?spark\u003dtrue\u0026id\u003d119"
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2F172.31.55.10%3A8088%2Fproxy%2Fapplication_1526794834458_0001/jobs/job?spark\u003dtrue\u0026id\u003d0",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2F172.31.55.10%3A8088%2Fproxy%2Fapplication_1526794834458_0001/jobs/job?spark\u003dtrue\u0026id\u003d1"
           ],
           "interpreterSettingId": "2DCN2CQ97538851523344882186"
         }
@@ -119,19 +119,19 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "Data present for yesterday\n34461\n"
+        "msg": "Data present for yesterday\n34517\n"
       },
       "dateCreated": "Apr 8, 2018 9:55:45 AM",
-      "dateStarted": "Apr 30, 2018 1:00:43 PM",
-      "dateFinished": "Apr 30, 2018 1:02:57 PM",
+      "dateStarted": "May 20, 2018 6:03:03 AM",
+      "dateFinished": "May 20, 2018 6:16:01 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Low Sales Products",
-      "text": "%pyspark\n\nSales.groupBy(\"A_B_C\",\"F_M_S\").agg(count(\"*\").alias(\"Cnt\"),sum(when(col(\"Avg_Sales\")\u003d\u003d0,1).otherwise(0)).alias(\"Null_Avg\"),sum(\"Sales_Alert\").alias(\"Alert\")).orderBy(\"A_B_C\",\"F_M_S\").show(100)",
+      "text": "%pyspark\n\nSales_City.groupBy(\"A_B_C\",\"F_M_S\").agg(count(\"*\").alias(\"Cnt\"),sum(when(col(\"Avg_Sales\")\u003d\u003d0,1).otherwise(0)).alias(\"Null_Avg\"),sum(\"Sales_Alert\").alias(\"Alert\")).orderBy(\"A_B_C\",\"F_M_S\").show(100)",
       "user": "info@zedeyelabs.com",
-      "dateUpdated": "Apr 30, 2018 1:31:06 PM",
+      "dateUpdated": "May 20, 2018 6:03:09 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -158,7 +158,7 @@
           "tooltip": "View in Spark web UI",
           "group": "spark",
           "values": [
-            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2F172.31.59.148%3A8088%2Fproxy%2Fapplication_1525083614961_0001/jobs/job?spark\u003dtrue\u0026id\u003d162"
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2F172.31.55.10%3A8088%2Fproxy%2Fapplication_1526794834458_0001/jobs/job?spark\u003dtrue\u0026id\u003d2"
           ],
           "interpreterSettingId": "2DCN2CQ97538851523344882186"
         }
@@ -169,19 +169,19 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "+-----+-----+-----+--------+-----+\n|A_B_C|F_M_S|  Cnt|Null_Avg|Alert|\n+-----+-----+-----+--------+-----+\n|    A|    F| 1405|      69|  125|\n|    A|    M| 1810|    1147|  247|\n|    A|    S| 1046|    1011|   16|\n|    B|    F|  355|      87|   47|\n|    B|    M| 3278|    2344|  397|\n|    B|    S| 5623|    5547|   84|\n|    C|    F|  166|     156|    4|\n|    C|    M| 1619|    1405|  113|\n|    C|    S|19159|   19071|   80|\n+-----+-----+-----+--------+-----+\n\n"
+        "msg": "+-----+-----+-----+--------+-----+\n|A_B_C|F_M_S|  Cnt|Null_Avg|Alert|\n+-----+-----+-----+--------+-----+\n|    A|    F| 1435|      80|  153|\n|    A|    M| 1832|    1035|  362|\n|    A|    S| 1021|     991|   31|\n|    B|    F|  363|      84|   53|\n|    B|    M| 3307|    2192|  570|\n|    B|    S| 5728|    5599|  108|\n|    C|    F|  119|     111|    1|\n|    C|    M| 1714|    1436|  219|\n|    C|    S|18998|   18878|  177|\n+-----+-----+-----+--------+-----+\n\n"
       },
       "dateCreated": "Apr 9, 2018 2:23:53 PM",
-      "dateStarted": "Apr 30, 2018 1:31:06 PM",
-      "dateFinished": "Apr 30, 2018 1:31:07 PM",
+      "dateStarted": "May 20, 2018 6:03:09 AM",
+      "dateFinished": "May 20, 2018 6:16:04 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Alert Items",
-      "text": "%pyspark\n\nAlert \u003d Sales.filter(\"(A_B_C\u003d\u0027A\u0027 and F_M_S in (\u0027F\u0027,\u0027M\u0027)) or (A_B_C\u003d\u0027B\u0027 and F_M_S\u003d\u0027F\u0027)\")\\\n             .filter(\"Avg_Sales\u003e5 and D7_Sales\u003e5\").filter(\"Sales_Alert\u003d\u003d1\")\\\n             .filter(\"Prod_Code !\u003d\u0027900102000001\u0027\")\\\n             .filter(\"Prod_Division!\u003d\u0027TEXTILES\u0027 or (Prod_Division\u003d\u0027TEXTILES\u0027 and Avg_Selling_Price\u003e20)\")\\\n             .filter(\"Prod_Description NOT LIKE \u0027%OFFER%\u0027 AND Prod_Description NOT LIKE \u0027%@%\u0027 AND Prod_Description NOT LIKE \u0027%OFF PRICE%\u0027 AND Prod_Description NOT LIKE                        \u0027%+%\u0027 AND Prod_Description NOT LIKE \u0027%SPECIAL PRICE%\u0027 AND Prod_Description NOT LIKE \u0027%@SP %\u0027 AND Prod_Description NOT LIKE \u0027%PROMO%\u0027                                       AND Prod_Description NOT LIKE \u0027%DISCOUNT%\u0027 AND Prod_Description NOT LIKE \u0027%\\% OFF%\u0027 AND Prod_Description NOT LIKE \u0027%\\% OFF%\u0027                                               AND Prod_Description NOT LIKE \u0027%\\% EXTRA%\u0027 AND Prod_Description NOT LIKE \u0027%\\%EXTRA%\u0027\")\\\n             .orderBy(\"Prod_Division\",desc(\"Avg_Sales\"))\n \ndf \u003d Alert.select(\"Prod_Code\",\"Prod_Description\",\"Prod_Division\",\"D0_Sales\",\"D1_Sales\",\"D7_Sales\",\"Avg_Sales\")\nprint \"Alerted Products :\",df.count()\ndf.show(100,False)",
+      "text": "%pyspark\n\nAlert \u003d Sales_City.filter(\"(A_B_C\u003d\u0027A\u0027 and F_M_S in (\u0027F\u0027,\u0027M\u0027)) or (A_B_C\u003d\u0027B\u0027 and F_M_S\u003d\u0027F\u0027)\")\\\n                  .filter(\"Avg_Sales\u003e5 and D7_Sales\u003e5\").filter(\"Sales_Alert\u003d\u003d1\")\\\n                  .filter(\"Prod_Code !\u003d\u0027900102000001\u0027\")\\\n                  .filter(\"Prod_Division!\u003d\u0027TEXTILES\u0027 or (Prod_Division\u003d\u0027TEXTILES\u0027 and Avg_Selling_Price\u003e20)\")\\\n                  .filter(\"Prod_Description NOT LIKE \u0027%OFFER%\u0027 AND Prod_Description NOT LIKE \u0027%@%\u0027 AND Prod_Description NOT LIKE \u0027%OFF PRICE%\u0027 AND Prod_Description NOT LIKE                        \u0027%+%\u0027 AND Prod_Description NOT LIKE \u0027%SPECIAL PRICE%\u0027 AND Prod_Description NOT LIKE \u0027%@SP %\u0027 AND Prod_Description NOT LIKE \u0027%PROMO%\u0027                                       AND Prod_Description NOT LIKE \u0027%DISCOUNT%\u0027 AND Prod_Description NOT LIKE \u0027%\\% OFF%\u0027 AND Prod_Description NOT LIKE \u0027%\\% OFF%\u0027                                               AND Prod_Description NOT LIKE \u0027%\\% EXTRA%\u0027 AND Prod_Description NOT LIKE \u0027%\\%EXTRA%\u0027\")\\\n                  .orderBy(\"Prod_Division\",desc(\"Avg_Sales\"))\n \ndf \u003d Alert.select(\"Prod_Code\",\"Prod_Description\",\"Prod_Division\",\"D0_Sales\",\"D1_Sales\",\"D7_Sales\",\"Avg_Sales\")\nprint \"Alerted Products :\",df.count()\ndf.show(100,False)",
       "user": "info@zedeyelabs.com",
-      "dateUpdated": "Apr 30, 2018 1:18:56 PM",
+      "dateUpdated": "May 20, 2018 6:17:02 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -208,9 +208,9 @@
           "tooltip": "View in Spark web UI",
           "group": "spark",
           "values": [
-            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2F172.31.59.148%3A8088%2Fproxy%2Fapplication_1525083614961_0001/jobs/job?spark\u003dtrue\u0026id\u003d149",
-            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2F172.31.59.148%3A8088%2Fproxy%2Fapplication_1525083614961_0001/jobs/job?spark\u003dtrue\u0026id\u003d150",
-            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2F172.31.59.148%3A8088%2Fproxy%2Fapplication_1525083614961_0001/jobs/job?spark\u003dtrue\u0026id\u003d151"
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2F172.31.55.10%3A8088%2Fproxy%2Fapplication_1526794834458_0001/jobs/job?spark\u003dtrue\u0026id\u003d6",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2F172.31.55.10%3A8088%2Fproxy%2Fapplication_1526794834458_0001/jobs/job?spark\u003dtrue\u0026id\u003d7",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2F172.31.55.10%3A8088%2Fproxy%2Fapplication_1526794834458_0001/jobs/job?spark\u003dtrue\u0026id\u003d8"
           ],
           "interpreterSettingId": "2DCN2CQ97538851523344882186"
         }
@@ -221,11 +221,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "Alerted Products : 12\n+------------+-----------------------------------------------------+----------------+--------+--------+--------+---------+\n|Prod_Code   |Prod_Description                                     |Prod_Division   |D0_Sales|D1_Sales|D7_Sales|Avg_Sales|\n+------------+-----------------------------------------------------+----------------+--------+--------+--------+---------+\n|012421000192|MAI DUBAI CUP WATER 200ML                            |FMCG            |0.0     |0.0     |96.0    |120.0    |\n|011006000067|BATOOK CHEWING GUM CARDAMOM 5\u0027S                      |FMCG            |8.0     |124.0   |86.0    |69.0     |\n|013001000036|THREE STAR LIGHT CIGARETTES                          |FMCG            |1.0     |65.0    |38.0    |65.0     |\n|010301000221|NESTLE NESCAFE 3 IN 1 CREAMY LATTE COFFEE 22.5GM     |FMCG            |1.0     |49.0    |31.0    |40.0     |\n|012421000244|AQUAFINA PET WATER 500ML                             |FMCG            |1.0     |15.0    |10.0    |22.0     |\n|012401000050|RANI PEACH FLOAT JUICE 240ML                         |FMCG            |1.0     |10.0    |16.0    |19.0     |\n|100720000019|AXE BRAND UNIVERSAL OIL. 10ml                        |FMCG            |6.0     |89.0    |67.0    |13.0     |\n|100201000314|PEARS  SOAP 75GM                                     |FMCG            |1.0     |7.0     |6.0     |12.0     |\n|012801000403|ARIEL DETERGENT POWDER WITH TOUCH DOWNY 260GM (27914)|FMCG            |1.0     |7.0     |7.0     |8.0      |\n|020110000012|ALMARAI ZABADI TUB LOW FAT 170gm                     |FRESH FOOD      |1.0     |11.0    |9.0     |10.0     |\n|050126000007|AL AIN UP CUMIN/MINT 200ML                           |FRESH FOOD      |0.0     |12.0    |7.0     |6.0      |\n|012706000106|AGARBATHI VIJI JUNIOR                                |LIGHT HOUSE HOLD|1.0     |12.0    |13.0    |14.0     |\n+------------+-----------------------------------------------------+----------------+--------+--------+--------+---------+\n\n"
+        "msg": "Alerted Products : 19\n+------------+---------------------------------------+----------------+--------+--------+--------+---------+\n|Prod_Code   |Prod_Description                       |Prod_Division   |D0_Sales|D1_Sales|D7_Sales|Avg_Sales|\n+------------+---------------------------------------+----------------+--------+--------+--------+---------+\n|012912000009|HOTPACK PAPERCUP W/HANDLE 7 OZ         |FMCG            |6.0     |0.0     |116.0   |45.0     |\n|011002000728|ADORE YONKERS CHOCOLATE 35GM           |FMCG            |0.0     |13.0    |26.0    |28.0     |\n|011002000647|ADORE FIORI CHOCOLATE CARAMEL 40GM     |FMCG            |0.0     |1.0     |15.0    |24.0     |\n|012421000192|MAI DUBAI CUP WATER 200ML              |FMCG            |0.0     |0.0     |144.0   |24.0     |\n|010305000275|POWER ROOT ALI TEA TEH TARIK 20GM      |FMCG            |0.0     |0.0     |18.0    |18.0     |\n|012401000260|RANI STRAWBERRY BANANA FLOAT DRINK240ML|FMCG            |2.0     |17.0    |13.0    |15.0     |\n|010513000039|NABISCO KLEIJA BISCUITS 62GM           |FMCG            |1.0     |11.0    |9.0     |11.0     |\n|100401000060|DENTEX TOOTH BRUSH                     |FMCG            |1.0     |7.0     |7.0     |9.0      |\n|012924000009|MAPCO DESERT SPOON 50\u0027S                |FMCG            |0.0     |0.0     |12.0    |9.0      |\n|012401000321|PRAN POWER DRINKS 270ML                |FMCG            |1.0     |3.0     |16.0    |7.0      |\n|011108000048|AMUL GHEE 1 LTR                        |FMCG            |0.0     |14.0    |6.0     |6.0      |\n|012911000064|FOOD PACK TRASH BAG 5 GAL 30\u0027S         |FMCG            |0.0     |1.0     |9.0     |6.0      |\n|010513000486|TIFFANY NUTTY BITE CASHEW 8X90GM       |FMCG            |0.0     |8.0     |7.0     |6.0      |\n|100402000040|DABUR CLOVE TOOTHPASTE 150GMS (C5)     |FMCG            |0.0     |3.0     |9.0     |6.0      |\n|051000000007|FARMERS CHOICE WB BIG EGGS BOX 6\u0027S     |FRESH FOOD      |0.0     |9.0     |7.0     |15.0     |\n|1224        |GREEN APPLE BIG SIZE KGS               |FRESH FOOD      |1.0     |7.0     |7.0     |9.0      |\n|020134000258|ALMARAI ALPHONSO MANGO JUICE 300 ML    |FRESH FOOD      |0.0     |4.0     |11.0    |8.0      |\n|3006        |POPLATE BLACK                          |FRESH FOOD      |1.0     |3.0     |11.0    |7.0      |\n|280200000574|RCA 39-040318 SHARPNER                 |LIGHT HOUSE HOLD|0.0     |0.0     |13.0    |9.0      |\n+------------+---------------------------------------+----------------+--------+--------+--------+---------+\n\n"
       },
       "dateCreated": "Apr 29, 2018 1:18:24 PM",
-      "dateStarted": "Apr 30, 2018 1:18:57 PM",
-      "dateFinished": "Apr 30, 2018 1:18:59 PM",
+      "dateStarted": "May 20, 2018 6:17:02 AM",
+      "dateFinished": "May 20, 2018 6:17:06 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -233,7 +233,7 @@
       "title": "Email UDF",
       "text": "%pyspark\n\nimport csv\nfrom tabulate import tabulate\nfrom email.mime.multipart import MIMEMultipart\nfrom email.mime.text import MIMEText\nfrom email.mime.application import MIMEApplication\nimport smtplib\n\ndef email_alert_udf(me,password,you,cc,subject,text,html,df,d0):\n\tlist \u003ddf.rdd.map(lambda row: [str(c) for c in row]).collect()\n\tdata \u003d [df.columns]+list\n\ttext \u003d text.format(table\u003dtabulate(data, headers\u003d\"firstrow\", tablefmt\u003d\"grid\"))\n\thtml \u003d html.format(table\u003dtabulate(data, headers\u003d\"firstrow\", tablefmt\u003d\"html\"))\n\n\tmessage \u003d MIMEMultipart(\"alternative\", None, [MIMEText(text),MIMEText(html,\u0027html\u0027)])\n\n\tmessage[\u0027Subject\u0027] \u003d subject\n\tmessage[\u0027From\u0027] \u003d me\n\tmessage[\u0027To\u0027] \u003d \", \".join(you)\n\tmessage[\u0027Cc\u0027] \u003d \", \".join(cc)\n\t\n\twith open(\u0027/tmp/some-file.csv\u0027, \u0027wt\u0027) as fw:\n\t    writer \u003d csv.writer(fw)\n\t    writer.writerows(data)\n\t\n\tpart \u003d MIMEApplication(open(\u0027/tmp/some-file.csv\u0027, \u0027r\u0027).read())\n\tpart[\u0027Content-Disposition\u0027] \u003d \u0027attachment; filename\u003d%s\u0027 % \"Products List : \"+str(d0.strftime(\u0027%d-%m-%Y\u0027))+\".csv\"\n\tmessage.attach(part)\n\t\n\tserver \u003d \u0027smtp.office365.com:587\u0027\n\tserver \u003d smtplib.SMTP(server)\n\tserver.ehlo()\n\tserver.starttls()\n\tserver.login(me, password)\n\tserver.sendmail(me, you+cc, message.as_string())\n\tserver.quit()\n\tprint(\"Email Sent Successfully\")",
       "user": "40993",
-      "dateUpdated": "Apr 24, 2018 11:46:14 AM",
+      "dateUpdated": "May 18, 2018 2:26:04 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -262,16 +262,16 @@
         "msg": ""
       },
       "dateCreated": "Apr 9, 2018 2:54:03 PM",
-      "dateStarted": "Apr 30, 2018 2:20:27 AM",
-      "dateFinished": "Apr 30, 2018 2:20:29 AM",
+      "dateStarted": "May 20, 2018 2:19:27 AM",
+      "dateFinished": "May 20, 2018 2:19:32 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Sales Alarm Email",
-      "text": "%pyspark\n\nme \u003d \u0027info@zedeyelabs.com\u0027\npassword \u003d \u0027Zedeye@123\u0027\n\nyou \u003d [\u0027kader@grandhyper.com\u0027]\ncc \u003d [\u0027ameen@grandhyper.com\u0027,\u0027sajad@grandhyper.com\u0027,\u0027mahamoodtp@grandhyper.com\u0027,\u0027vishal@grandhyper.com\u0027,\u0027abbas@grandhyper.com\u0027,\u0027nizarpk@grandhyper.com\u0027,\u0027rinaz.belhaj@zedeyelabs.com\u0027,\u0027rahul.malani@zedeyelabs.com\u0027,\u0027sarvesh.rao@zedeyelabs.com\u0027]\n\nsubject \u003d \"Sales Alarm for Non Performing SKUs - GCity\"\n\ntext \u003d \"\"\"\nHello Store Managers, \n\nPlease find the below list of fast moving and high value SKUs whose sales performance is not as per the expectation on \u003cb\u003e\"\"\"+str(d0.strftime(\u0027%A : %d-%b-%Y\u0027))+\"\"\"\u003c/b\u003e. Kindly have a look at it and respond with reasons behind poor performance.\n\nNote:\nD0_Sales - Yesterday\u0027s [\"\"\"+d0.strftime(\u0027%A\u0027)+\"\"\"]  Sales Quantity\nD1_Sales - Day Before Yesterday\u0027s [\"\"\"+d1.strftime(\u0027%A\u0027)+\"\"\"] Sales Quantity\nD7_Sales - Last Week \"\"\"+d7.strftime(\u0027%A\u0027)+\"\"\"\u0027s Sales Quantity\nAvg_Sales - Average Sales Quantity of Last 6 \"\"\"+d7.strftime(\u0027%A\u0027)+\"\"\"s\n\n{table}\n\nRegards,\nZedeye Labs\n\"\"\"\n\nhtml \u003d \"\"\"\n\u003chtml\u003e\n\u003chead\u003e\n\u003cstyle\u003e \n  table, th, td {{ border: 1px solid black; border-collapse: collapse; }}\n  th, td {{ padding: 5px; }}\n\u003c/style\u003e\n\u003c/head\u003e\n\u003cbody\u003e\n\u003cp\u003e\u003cb\u003eHello Store Managers,\u003c/b\u003e\u003c/p\u003e\n\u003cp\u003ePlease find the below list of fast moving and high value SKUs whose sales performance on \u003cb\u003e\"\"\"+str(d0.strftime(\u0027%A : %d-%b-%Y\u0027))+\"\"\"\u003c/b\u003e was not as per the expectation. Kindly have a look at it and respond with reasons behind poor performance.\u003c/p\u003e\n\u003cp\u003e\u003cb\u003eNote:\u003c/b\u003e\u003c/p\u003e\n\u003cp\u003e\u003cb\u003eD0_Sales - Yesterday\u0027s [\"\"\"+d0.strftime(\u0027%A\u0027)+\"\"\"]  Sales Quantity\u003c/b\u003e\n\u003cbr /\u003e\u003cb\u003eD1_Sales - Day Before Yesterday\u0027s [\"\"\"+d1.strftime(\u0027%A\u0027)+\"\"\"] Sales Quantity\u003c/b\u003e\n\u003cbr /\u003e\u003cb\u003eD7_Sales - Last Week \"\"\"+d7.strftime(\u0027%A\u0027)+\"\"\"\u0027s Sales Quantity\u003c/b\u003e\n\u003cbr /\u003e\u003cb\u003eAvg_Sales - Average Sales Quantity of Last 6 \"\"\"+d7.strftime(\u0027%A\u0027)+\"\"\"s\u003c/b\u003e\u003c/p\u003e\n\u003cbr /\u003e\n\n{table}\n\n\u003cp\u003e\u003cb\u003eRegards,\u003c/b\u003e\n\u003cbr /\u003e\u003cb\u003eZedeye Labs\u003c/b\u003e\u003c/p\u003e\n\u003c/body\u003e\n\u003c/html\u003e\n\"\"\"\n\nif(df.count()\u003e0):\n    email_alert_udf(me,password,you,cc,subject,text,html,df,d0)\n    out_path \u003d \"s3://zedeyelabs/Projects/Sales_Alarm/Dubai/Gcity/\"+ str(d0)[0:4] +\"/\" + str(d0)[5:7]+\"/\"+str(d0)[8:10]+\"/\"\n    Alert.write.mode(\"overwrite\").parquet(out_path)\n    print(\"Files Written to S3\")\nelse:\n    print(\"No Mail Sent\")\n\nprint(you)\nprint(cc)\nSales.unpersist()\nlot_stk_move1.unpersist()\nprint(\"\")",
-      "user": "info@zedeyelabs.com",
-      "dateUpdated": "Apr 30, 2018 1:35:23 PM",
+      "text": "%pyspark\n\nme \u003d \u0027info@zedeyelabs.com\u0027\npassword \u003d \u0027Zedeye@123\u0027\n\nyou \u003d [\u0027kader@grandhyper.com\u0027]\ncc \u003d [\u0027ameen@grandhyper.com\u0027,\u0027sajad@grandhyper.com\u0027,\u0027mahamoodtp@grandhyper.com\u0027,\u0027vishal@grandhyper.com\u0027,\u0027abbas@grandhyper.com\u0027,\u0027nizarpk@grandhyper.com\u0027,\u0027rinaz.belhaj@zedeyelabs.com\u0027,\u0027rahul.malani@zedeyelabs.com\u0027,\u0027sarvesh.rao@zedeyelabs.com\u0027]\n\nsubject \u003d \"Sales Alarm for Non Performing SKUs - GCity\"\n\ntext \u003d \"\"\"\nHello Store Managers, \n\nPlease find the below list of fast moving and high value SKUs whose sales performance is not as per the expectation on \u003cb\u003e\"\"\"+str(d0.strftime(\u0027%A : %d-%b-%Y\u0027))+\"\"\"\u003c/b\u003e. Kindly have a look at it and respond with reasons behind poor performance.\n\nNote:\nD0_Sales - Yesterday\u0027s [\"\"\"+d0.strftime(\u0027%A\u0027)+\"\"\"]  Sales Quantity\nD1_Sales - Day Before Yesterday\u0027s [\"\"\"+d1.strftime(\u0027%A\u0027)+\"\"\"] Sales Quantity\nD7_Sales - Last Week \"\"\"+d7.strftime(\u0027%A\u0027)+\"\"\"\u0027s Sales Quantity\nAvg_Sales - Average Sales Quantity of Last 6 \"\"\"+d7.strftime(\u0027%A\u0027)+\"\"\"s\n\n{table}\n\nRegards,\nZedeye Labs\n\"\"\"\n\nhtml \u003d \"\"\"\n\u003chtml\u003e\n\u003chead\u003e\n\u003cstyle\u003e \n  table, th, td {{ border: 1px solid black; border-collapse: collapse; }}\n  th, td {{ padding: 5px; }}\n\u003c/style\u003e\n\u003c/head\u003e\n\u003cbody\u003e\n\u003cp\u003e\u003cb\u003eHello Store Managers,\u003c/b\u003e\u003c/p\u003e\n\u003cp\u003ePlease find the below list of fast moving and high value SKUs whose sales performance on \u003cb\u003e\"\"\"+str(d0.strftime(\u0027%A : %d-%b-%Y\u0027))+\"\"\"\u003c/b\u003e was not as per the expectation. Kindly have a look at it and respond with reasons behind poor performance.\u003c/p\u003e\n\u003cp\u003e\u003cb\u003eNote:\u003c/b\u003e\u003c/p\u003e\n\u003cp\u003e\u003cb\u003eD0_Sales - Yesterday\u0027s [\"\"\"+d0.strftime(\u0027%A\u0027)+\"\"\"]  Sales Quantity\u003c/b\u003e\n\u003cbr /\u003e\u003cb\u003eD1_Sales - Day Before Yesterday\u0027s [\"\"\"+d1.strftime(\u0027%A\u0027)+\"\"\"] Sales Quantity\u003c/b\u003e\n\u003cbr /\u003e\u003cb\u003eD7_Sales - Last Week \"\"\"+d7.strftime(\u0027%A\u0027)+\"\"\"\u0027s Sales Quantity\u003c/b\u003e\n\u003cbr /\u003e\u003cb\u003eAvg_Sales - Average Sales Quantity of Last 6 \"\"\"+d7.strftime(\u0027%A\u0027)+\"\"\"s\u003c/b\u003e\u003c/p\u003e\n\u003cbr /\u003e\n\n{table}\n\n\u003cp\u003e\u003cb\u003eRegards,\u003c/b\u003e\n\u003cbr /\u003e\u003cb\u003eZedeye Labs\u003c/b\u003e\u003c/p\u003e\n\u003c/body\u003e\n\u003c/html\u003e\n\"\"\"\n\nif(df.count()\u003e0):\n    email_alert_udf(me,password,you,cc,subject,text,html,df,d0)\n    out_path \u003d \"s3://zedeyelabs/Projects/Sales_Alarm/Dubai/Gcity/\"+ str(d0)[0:4] +\"/\" + str(d0)[5:7]+\"/\"+str(d0)[8:10]+\"/\"\n    Alert.write.mode(\"overwrite\").parquet(out_path)\n    print(\"Files Written to S3\")\nelse:\n    print(\"No Mail Sent\")\n\nprint(you)\nprint(cc)\nSales_City.unpersist()\nlot_stk_move1.unpersist()\nprint(\"\")",
+      "user": "40993",
+      "dateUpdated": "May 18, 2018 2:26:16 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -300,8 +300,8 @@
         "msg": "Email Sent Successfully\nFiles Written to S3\n[\u0027kader@grandhyper.com\u0027]\n[\u0027ameen@grandhyper.com\u0027, \u0027sajad@grandhyper.com\u0027, \u0027mahamoodtp@grandhyper.com\u0027, \u0027vishal@grandhyper.com\u0027, \u0027abbas@grandhyper.com\u0027, \u0027nizarpk@grandhyper.com\u0027, \u0027rinaz.belhaj@zedeyelabs.com\u0027, \u0027rahul.malani@zedeyelabs.com\u0027, \u0027sarvesh.rao@zedeyelabs.com\u0027]\n\n"
       },
       "dateCreated": "Apr 9, 2018 6:11:15 AM",
-      "dateStarted": "Apr 30, 2018 2:20:29 AM",
-      "dateFinished": "Apr 30, 2018 2:21:11 AM",
+      "dateStarted": "May 20, 2018 2:19:32 AM",
+      "dateFinished": "May 20, 2018 2:20:00 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -340,61 +340,6 @@
       "dateCreated": "Apr 9, 2018 9:54:41 AM",
       "dateStarted": "Apr 24, 2018 11:40:16 AM",
       "dateFinished": "Apr 24, 2018 11:40:44 AM",
-      "status": "FINISHED",
-      "progressUpdateIntervalMs": 500
-    },
-    {
-      "title": "Product Check",
-      "text": "%pyspark\n\nSales.filter(\"tsm_prod_code\u003d\u0027012912000095\u0027\").show(5)\n\nAvg_Sales \u003d lot_stk_move1.filter(col(\"tsm_cre_date\").isin([d7,d14,d21,d28,d35,d42])).groupBy(\"tsm_prod_code\",\"tsm_cre_date\").agg(sum(\"tsm_qty_total\").alias(\"Tot_Sales\")).withColumn(\"Rank\",row_number().over(Window.partitionBy(\"tsm_prod_code\").orderBy(desc(\"Tot_Sales\")))).filter(\"tsm_prod_code\u003d\u0027012912000095\u0027\").orderBy(\"Tot_Sales\")\n\nAvg_Sales.show(50)\n\nAvg_Sales \u003d lot_stk_move1.groupBy(\"tsm_prod_code\",\"tsm_cre_date\").agg(sum(\"tsm_qty_total\").alias(\"Tot_Sales\")).withColumn(\"Rank\",row_number().over(Window.partitionBy(\"tsm_prod_code\").orderBy(desc(\"Tot_Sales\")))).filter(\"tsm_prod_code\u003d\u0027012912000095\u0027\").orderBy(\"tsm_cre_date\")\n\nAvg_Sales.show(500)",
-      "user": "info@zedeyelabs.com",
-      "dateUpdated": "Apr 30, 2018 1:29:54 PM",
-      "config": {
-        "colWidth": 12.0,
-        "graph": {
-          "mode": "table",
-          "height": 300.0,
-          "optionOpen": false,
-          "keys": [],
-          "values": [],
-          "groups": [],
-          "scatter": {}
-        },
-        "enabled": false,
-        "editorMode": "ace/mode/scala",
-        "title": true
-      },
-      "settings": {
-        "params": {},
-        "forms": {}
-      },
-      "runtimeInfos": {
-        "jobUrl": {
-          "propertyName": "jobUrl",
-          "label": "JOB UI",
-          "tooltip": "View in Spark web UI",
-          "group": "spark",
-          "values": [
-            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2F172.31.59.148%3A8088%2Fproxy%2Fapplication_1525083614961_0001/jobs/job?spark\u003dtrue\u0026id\u003d155",
-            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2F172.31.59.148%3A8088%2Fproxy%2Fapplication_1525083614961_0001/jobs/job?spark\u003dtrue\u0026id\u003d156",
-            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2F172.31.59.148%3A8088%2Fproxy%2Fapplication_1525083614961_0001/jobs/job?spark\u003dtrue\u0026id\u003d157",
-            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2F172.31.59.148%3A8088%2Fproxy%2Fapplication_1525083614961_0001/jobs/job?spark\u003dtrue\u0026id\u003d158",
-            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2F172.31.59.148%3A8088%2Fproxy%2Fapplication_1525083614961_0001/jobs/job?spark\u003dtrue\u0026id\u003d159",
-            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2F172.31.59.148%3A8088%2Fproxy%2Fapplication_1525083614961_0001/jobs/job?spark\u003dtrue\u0026id\u003d160"
-          ],
-          "interpreterSettingId": "2DCN2CQ97538851523344882186"
-        }
-      },
-      "version": "v0",
-      "jobName": "paragraph_1525092555697_362657770",
-      "id": "20180430-124915_1252577540_q_Z6ZMJHVMTB1523181295",
-      "result": {
-        "code": "SUCCESS",
-        "type": "TEXT",
-        "msg": "+-------------+------------+-----------------+-----+-----+--------+--------+--------+------------+---------+----+--------------------+----------------+-------------+------+------+------+------------+-----------+-----------+\n|prod_div_code|   Prod_Code|Avg_Selling_Price|A_B_C|F_M_S|D7_Sales|D1_Sales|D0_Sales|tsm_cre_date|Avg_Sales|Rank|    Prod_Description|prod_prsgrp_code|Prod_Division|Rule_1|Rule_2|Rule_3|Rules_Broken|Sales_Alert|Create_Date|\n+-------------+------------+-----------------+-----+-----+--------+--------+--------+------------+---------+----+--------------------+----------------+-------------+------+------+------+------------+-----------+-----------+\n|           01|012912000095|             1.99|    A|    M|    26.0|     0.0|     0.0|        null|      0.0|   0|GRAND MFMRT016 FO...|          031414|         FMCG|     0|     1|     0|           1|          0| 2018-04-29|\n+-------------+------------+-----------------+-----+-----+--------+--------+--------+------------+---------+----+--------------------+----------------+-------------+------+------+------+------------+-----------+-----------+\n\n+-------------+------------+---------+----+\n|tsm_prod_code|tsm_cre_date|Tot_Sales|Rank|\n+-------------+------------+---------+----+\n| 012912000095|  2018-03-04|      1.0|  22|\n| 012912000095|  2018-03-05|     40.0|   6|\n| 012912000095|  2018-03-06|      6.0|  20|\n| 012912000095|  2018-03-07|     32.0|   9|\n| 012912000095|  2018-03-08|      2.0|  21|\n| 012912000095|  2018-03-10|     40.0|   7|\n| 012912000095|  2018-03-17|     26.0|  10|\n| 012912000095|  2018-03-18|     68.0|   2|\n| 012912000095|  2018-03-19|     45.0|   4|\n| 012912000095|  2018-03-20|     16.0|  15|\n| 012912000095|  2018-03-21|     12.0|  16|\n| 012912000095|  2018-03-22|     18.0|  13|\n| 012912000095|  2018-03-23|     12.0|  17|\n| 012912000095|  2018-03-24|     22.0|  12|\n| 012912000095|  2018-03-25|     53.0|   3|\n| 012912000095|  2018-03-26|     78.0|   1|\n| 012912000095|  2018-03-27|      8.0|  19|\n| 012912000095|  2018-03-28|     17.0|  14|\n| 012912000095|  2018-03-29|      1.0|  23|\n| 012912000095|  2018-04-22|     26.0|  11|\n| 012912000095|  2018-04-23|     40.0|   8|\n| 012912000095|  2018-04-24|     11.0|  18|\n| 012912000095|  2018-04-25|     43.0|   5|\n+-------------+------------+---------+----+\n\n"
-      },
-      "dateCreated": "Apr 30, 2018 12:49:15 PM",
-      "dateStarted": "Apr 30, 2018 1:21:39 PM",
-      "dateFinished": "Apr 30, 2018 1:23:51 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     }
