@@ -4,7 +4,7 @@
       "title": "Import Functions",
       "text": "%pyspark\n\nfrom pyspark.sql import *\nfrom pyspark.sql.functions import col, when, max, min, isnull\nfrom pyspark.sql.functions import count, sum, avg, row_number\nfrom pyspark.sql.functions import desc\nfrom pyspark.sql.functions import col, round\nfrom datetime import datetime, timedelta as td\nfrom pyspark.sql.functions import datediff,to_date,to_timestamp\nfrom pyspark.sql.functions import countDistinct\nfrom pyspark.sql.functions import lit\nfrom pyspark.sql.functions import substring\nfrom pyspark.sql.functions import broadcast\nspark.version",
       "user": "40993",
-      "dateUpdated": "May 22, 2018 1:57:43 PM",
+      "dateUpdated": "May 29, 2018 2:26:13 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -33,8 +33,8 @@
         "msg": "u\u00272.2.0\u0027\n"
       },
       "dateCreated": "Apr 8, 2018 9:54:56 AM",
-      "dateStarted": "May 27, 2018 2:20:09 AM",
-      "dateFinished": "May 27, 2018 2:20:09 AM",
+      "dateStarted": "Jun 3, 2018 2:20:09 AM",
+      "dateFinished": "Jun 3, 2018 2:20:09 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -68,11 +68,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "Saturday Friday Monday Saturday Saturday Saturday Saturday Saturday Saturday Saturday Saturday\n2018-05-26 2018-05-25 2018-05-21 2018-05-19 2018-05-12 2018-05-05 2018-04-28 2018-04-21 2018-04-14 2017-11-28\n"
+        "msg": "Saturday Friday Monday Saturday Saturday Saturday Saturday Saturday Saturday Saturday Saturday\n2018-06-02 2018-06-01 2018-05-28 2018-05-26 2018-05-19 2018-05-12 2018-05-05 2018-04-28 2018-04-21 2017-12-05\n"
       },
       "dateCreated": "Apr 9, 2018 9:06:40 AM",
-      "dateStarted": "May 27, 2018 2:20:09 AM",
-      "dateFinished": "May 27, 2018 2:20:09 AM",
+      "dateStarted": "Jun 3, 2018 2:20:10 AM",
+      "dateFinished": "Jun 3, 2018 2:20:10 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -106,11 +106,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "Data present for yesterday\n16848\n"
+        "msg": "Data present for yesterday\n16797\n"
       },
       "dateCreated": "Apr 8, 2018 9:55:45 AM",
-      "dateStarted": "May 27, 2018 2:20:09 AM",
-      "dateFinished": "May 27, 2018 2:26:36 AM",
+      "dateStarted": "Jun 3, 2018 2:20:10 AM",
+      "dateFinished": "Jun 3, 2018 2:23:42 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -144,11 +144,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "+-----+-----+----+--------+-----+\n|A_B_C|F_M_S| Cnt|Null_Avg|Alert|\n+-----+-----+----+--------+-----+\n|    A|    F| 425|      35|   65|\n|    A|    M| 807|     453|  161|\n|    A|    S| 468|     461|   13|\n|    B|    F|  62|      21|    8|\n|    B|    M|1153|     823|  204|\n|    B|    S|3498|    3431|   68|\n|    C|    F|  38|      38|    3|\n|    C|    M| 418|     383|   43|\n|    C|    S|9979|    9944|   55|\n+-----+-----+----+--------+-----+\n\n"
+        "msg": "+-----+-----+----+--------+-----+\n|A_B_C|F_M_S| Cnt|Null_Avg|Alert|\n+-----+-----+----+--------+-----+\n|    A|    F| 418|      29|   65|\n|    A|    M| 814|     492|  123|\n|    A|    S| 452|     442|   14|\n|    B|    F|  55|      13|   10|\n|    B|    M|1134|     837|  159|\n|    B|    S|3526|    3471|   45|\n|    C|    F|  36|      36|    0|\n|    C|    M| 403|     373|   37|\n|    C|    S|9959|    9924|   54|\n+-----+-----+----+--------+-----+\n\n"
       },
       "dateCreated": "Apr 9, 2018 2:23:53 PM",
-      "dateStarted": "May 27, 2018 2:20:10 AM",
-      "dateFinished": "May 27, 2018 2:26:38 AM",
+      "dateStarted": "Jun 3, 2018 2:20:10 AM",
+      "dateFinished": "Jun 3, 2018 2:23:43 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -182,11 +182,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "Alerted Products : 3\n+------------+--------------------------------+-------------+--------+--------+--------+---------+\n|Prod_Code   |Prod_Description                |Prod_Division|D0_Sales|D1_Sales|D7_Sales|Avg_Sales|\n+------------+--------------------------------+-------------+--------+--------+--------+---------+\n|012912000016|IP FOAM CUP 6OZ 25\u0027S            |FMCG         |1.0     |3.0     |83.0    |133.0    |\n|100720000020|AXE BRAND UNIVERSAL OIL 5ml     |FMCG         |0.0     |24.0    |16.0    |9.0      |\n|012902000012|ROYAL CLASSIC TOILET ROLL 10X500|FMCG         |1.0     |0.0     |16.0    |8.0      |\n+------------+--------------------------------+-------------+--------+--------+--------+---------+\n\n"
+        "msg": "Alerted Products : 9\n+------------+-----------------------------------+-------------+--------+--------+--------+---------+\n|Prod_Code   |Prod_Description                   |Prod_Division|D0_Sales|D1_Sales|D7_Sales|Avg_Sales|\n+------------+-----------------------------------+-------------+--------+--------+--------+---------+\n|012421000040|AQUAFINA PET WATER 1.5LTR          |FMCG         |0.0     |15.0    |16.0    |21.0     |\n|011805000063|AL HAMRA FILLED MILK 170ML         |FMCG         |3.0     |38.0    |22.0    |15.0     |\n|012401000231|PRAN LITCHI DRINK 170ML            |FMCG         |0.0     |3.0     |7.0     |10.0     |\n|011105000040|SUPER SUN COOKING OIL 1.8LTR       |FMCG         |1.0     |11.0    |6.0     |8.0      |\n|012719000123|POWERFUL EFFECT COCKROACH KILLER 6G|FMCG         |0.0     |23.0    |7.0     |7.0      |\n|040424000039|STAR LEMON SALTED SODA 300ML       |FMCG         |0.0     |9.0     |6.0     |7.0      |\n|1356        |PAKISTAN SANDRA (ORANGE)           |FRESH FOOD   |0.0     |2.0     |16.0    |19.0     |\n|2025        |AUSTRALIAN MUTTON PAYA PCS         |FRESH FOOD   |0.0     |16.0    |10.0    |10.0     |\n|3023        |MACKERAL BIG                       |FRESH FOOD   |1.0     |10.0    |9.0     |9.0      |\n+------------+-----------------------------------+-------------+--------+--------+--------+---------+\n\n"
       },
       "dateCreated": "Apr 29, 2018 1:18:24 PM",
-      "dateStarted": "May 27, 2018 2:26:36 AM",
-      "dateFinished": "May 27, 2018 2:26:41 AM",
+      "dateStarted": "Jun 3, 2018 2:23:42 AM",
+      "dateFinished": "Jun 3, 2018 2:23:47 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -223,16 +223,16 @@
         "msg": ""
       },
       "dateCreated": "Apr 9, 2018 2:54:03 PM",
-      "dateStarted": "May 27, 2018 2:26:39 AM",
-      "dateFinished": "May 27, 2018 2:26:41 AM",
+      "dateStarted": "Jun 3, 2018 2:23:43 AM",
+      "dateFinished": "Jun 3, 2018 2:23:47 AM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Sales Alarm Email",
-      "text": "%pyspark\n\nme \u003d \u0027info@zedeyelabs.com\u0027\npassword \u003d \u0027Zedeye@123\u0027\n\nyou \u003d [\u0027SANTHOSHKUMARNK101@gmail.com\u0027]\ncc \u003d [\u0027ameen@grandhyper.com\u0027,\u0027sajad@grandhyper.com\u0027,\u0027mahamoodtp@grandhyper.com\u0027,\u0027vishal@grandhyper.com\u0027,\u0027abbas@grandhyper.com\u0027,\u0027nizarpk@grandhyper.com\u0027,\u0027rinaz.belhaj@zedeyelabs.com\u0027,\u0027rahul.malani@zedeyelabs.com\u0027,\u0027sarvesh.rao@zedeyelabs.com\u0027,\u0027sairaghava@zedeyelabs.com\u0027]\n\nsubject \u003d \"Sales Alarm for Non Performing SKUs - GMini\"\n\ntext \u003d \"\"\"\nHello Store Managers, \n\nPlease find the below list of fast moving and high value SKUs whose sales performance is not as per the expectation on \u003cb\u003e\"\"\"+str(d0.strftime(\u0027%A : %d-%b-%Y\u0027))+\"\"\"\u003c/b\u003e. Kindly have a look at it and respond with reasons behind poor performance.\n\nNote:\nD0_Sales - Yesterday\u0027s [\"\"\"+d0.strftime(\u0027%A\u0027)+\"\"\"]  Sales Quantity\nD1_Sales - Day Before Yesterday\u0027s [\"\"\"+d1.strftime(\u0027%A\u0027)+\"\"\"] Sales Quantity\nD7_Sales - Last Week \"\"\"+d7.strftime(\u0027%A\u0027)+\"\"\"\u0027s Sales Quantity\nAvg_Sales - Average Sales Quantity of Last 6 \"\"\"+d7.strftime(\u0027%A\u0027)+\"\"\"s\n\n{table}\n\nRegards,\nZedeye Labs\n\"\"\"\n\nhtml \u003d \"\"\"\n\u003chtml\u003e\n\u003chead\u003e\n\u003cstyle\u003e \n  table, th, td {{ border: 1px solid black; border-collapse: collapse; }}\n  th, td {{ padding: 5px; }}\n\u003c/style\u003e\n\u003c/head\u003e\n\u003cbody\u003e\n\u003cp\u003e\u003cb\u003eHello Store Managers,\u003c/b\u003e\u003c/p\u003e\n\u003cp\u003ePlease find the below list of fast moving and high value SKUs whose sales performance on \u003cb\u003e\"\"\"+str(d0.strftime(\u0027%A : %d-%b-%Y\u0027))+\"\"\"\u003c/b\u003e was not as per the expectation. Kindly have a look at it and respond with reasons behind poor performance.\u003c/p\u003e\n\u003cp\u003e\u003cb\u003eNote:\u003c/b\u003e\u003c/p\u003e\n\u003cp\u003e\u003cb\u003eD0_Sales - Yesterday\u0027s [\"\"\"+d0.strftime(\u0027%A\u0027)+\"\"\"]  Sales Quantity\u003c/b\u003e\n\u003cbr /\u003e\u003cb\u003eD1_Sales - Day Before Yesterday\u0027s [\"\"\"+d1.strftime(\u0027%A\u0027)+\"\"\"] Sales Quantity\u003c/b\u003e\n\u003cbr /\u003e\u003cb\u003eD7_Sales - Last Week \"\"\"+d7.strftime(\u0027%A\u0027)+\"\"\"\u0027s Sales Quantity\u003c/b\u003e\n\u003cbr /\u003e\u003cb\u003eAvg_Sales - Average Sales Quantity of Last 6 \"\"\"+d7.strftime(\u0027%A\u0027)+\"\"\"s\u003c/b\u003e\u003c/p\u003e\n\u003cbr /\u003e\n\n{table}\n\n\u003cp\u003e\u003cb\u003eRegards,\u003c/b\u003e\n\u003cbr /\u003e\u003cb\u003eZedeye Labs\u003c/b\u003e\u003c/p\u003e\n\u003c/body\u003e\n\u003c/html\u003e\n\"\"\"\n\nif(df_Mini.count()\u003e0):\n    email_alert_udf(me,password,you,cc,subject,text,html,df_Mini,d0)\n    out_path \u003d \"s3://zedeyelabs/Projects/Sales_Alarm/Dubai/GMini/\"+ str(d0)[0:4] +\"/\" + str(d0)[5:7]+\"/\"+str(d0)[8:10]+\"/\"\n    Alert.write.mode(\"overwrite\").parquet(out_path)\n    print(\"Files Written to S3\")\nelse:\n    print(\"No Mail Sent\")\n\nprint(you)\nprint(cc)\nSales_City.unpersist()\nlot_stk_move1.unpersist()\nprint(\"\")",
-      "user": "40993",
-      "dateUpdated": "May 23, 2018 3:17:58 AM",
+      "text": "%pyspark\n\nme \u003d \u0027info@zedeyelabs.com\u0027\npassword \u003d spark.read.csv(\"s3://zedeyelabs/Password/info_mail_password.txt\").rdd.flatMap(lambda x: x).collect()[0]\n\nyou \u003d [\u0027SANTHOSHKUMARNK101@gmail.com\u0027]\ncc \u003d [\u0027ameen@grandhyper.com\u0027,\u0027sajad@grandhyper.com\u0027,\u0027mahamoodtp@grandhyper.com\u0027,\u0027abbas@grandhyper.com\u0027,\u0027nizarpk@grandhyper.com\u0027,\u0027rinaz.belhaj@zedeyelabs.com\u0027,\u0027rahul.malani@zedeyelabs.com\u0027,\u0027rajesh.vasam@zedeyelabs.com\u0027,\u0027sairaghava@zedeyelabs.com\u0027]\n\nsubject \u003d \"Sales Alarm for Non Performing SKUs - GMini\"\n\ntext \u003d \"\"\"\nHello Store Managers, \n\nPlease find the below list of fast moving and high value SKUs whose sales performance is not as per the expectation on \u003cb\u003e\"\"\"+str(d0.strftime(\u0027%A : %d-%b-%Y\u0027))+\"\"\"\u003c/b\u003e. Kindly have a look at it and respond with reasons behind poor performance.\n\nNote:\nD0_Sales - Yesterday\u0027s [\"\"\"+d0.strftime(\u0027%A\u0027)+\"\"\"]  Sales Quantity\nD1_Sales - Day Before Yesterday\u0027s [\"\"\"+d1.strftime(\u0027%A\u0027)+\"\"\"] Sales Quantity\nD7_Sales - Last Week \"\"\"+d7.strftime(\u0027%A\u0027)+\"\"\"\u0027s Sales Quantity\nAvg_Sales - Average Sales Quantity of Last 6 \"\"\"+d7.strftime(\u0027%A\u0027)+\"\"\"s\n\n{table}\n\nRegards,\nZedeye Labs\n\"\"\"\n\nhtml \u003d \"\"\"\n\u003chtml\u003e\n\u003chead\u003e\n\u003cstyle\u003e \n  table, th, td {{ border: 1px solid black; border-collapse: collapse; }}\n  th, td {{ padding: 5px; }}\n\u003c/style\u003e\n\u003c/head\u003e\n\u003cbody\u003e\n\u003cp\u003e\u003cb\u003eHello Store Managers,\u003c/b\u003e\u003c/p\u003e\n\u003cp\u003ePlease find the below list of fast moving and high value SKUs whose sales performance on \u003cb\u003e\"\"\"+str(d0.strftime(\u0027%A : %d-%b-%Y\u0027))+\"\"\"\u003c/b\u003e was not as per the expectation. Kindly have a look at it and respond with reasons behind poor performance.\u003c/p\u003e\n\u003cp\u003e\u003cb\u003eNote:\u003c/b\u003e\u003c/p\u003e\n\u003cp\u003e\u003cb\u003eD0_Sales - Yesterday\u0027s [\"\"\"+d0.strftime(\u0027%A\u0027)+\"\"\"]  Sales Quantity\u003c/b\u003e\n\u003cbr /\u003e\u003cb\u003eD1_Sales - Day Before Yesterday\u0027s [\"\"\"+d1.strftime(\u0027%A\u0027)+\"\"\"] Sales Quantity\u003c/b\u003e\n\u003cbr /\u003e\u003cb\u003eD7_Sales - Last Week \"\"\"+d7.strftime(\u0027%A\u0027)+\"\"\"\u0027s Sales Quantity\u003c/b\u003e\n\u003cbr /\u003e\u003cb\u003eAvg_Sales - Average Sales Quantity of Last 6 \"\"\"+d7.strftime(\u0027%A\u0027)+\"\"\"s\u003c/b\u003e\u003c/p\u003e\n\u003cbr /\u003e\n\n{table}\n\n\u003cp\u003e\u003cb\u003eRegards,\u003c/b\u003e\n\u003cbr /\u003e\u003cb\u003eZedeye Labs\u003c/b\u003e\u003c/p\u003e\n\u003c/body\u003e\n\u003c/html\u003e\n\"\"\"\n\nif(df_Mini.count()\u003e0):\n    email_alert_udf(me,password,you,cc,subject,text,html,df_Mini,d0)\n    out_path \u003d \"s3://zedeyelabs/Projects/Sales_Alarm/Dubai/GMini/\"+ str(d0)[0:4] +\"/\" + str(d0)[5:7]+\"/\"+str(d0)[8:10]+\"/\"\n    Alert.write.mode(\"overwrite\").parquet(out_path)\n    print(\"Files Written to S3\")\nelse:\n    print(\"No Mail Sent\")\n\nprint(you)\nprint(cc)\nSales_Mini.unpersist()\nlot_stk_move1.unpersist()\nprint(\"\")",
+      "user": "info@zedeyelabs.com",
+      "dateUpdated": "Jun 3, 2018 6:38:45 AM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -252,18 +252,31 @@
         "params": {},
         "forms": {}
       },
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "JOB UI",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2F172.31.54.9%3A8088%2Fproxy%2Fapplication_1528005204327_0001/jobs/job?spark\u003dtrue\u0026id\u003d63",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2F172.31.54.9%3A8088%2Fproxy%2Fapplication_1528005204327_0001/jobs/job?spark\u003dtrue\u0026id\u003d64"
+          ],
+          "interpreterSettingId": "2DCN2CQ97538851523344882186"
+        }
+      },
       "version": "v0",
       "jobName": "paragraph_1523254275429_-1645375496",
       "id": "20180409-061115_43418542_q_B2FXVH6KPV1526900436",
       "result": {
-        "code": "SUCCESS",
+        "code": "ERROR",
         "type": "TEXT",
-        "msg": "Email Sent Successfully\nFiles Written to S3\n[\u0027SANTHOSHKUMARNK101@gmail.com\u0027]\n[\u0027ameen@grandhyper.com\u0027, \u0027sajad@grandhyper.com\u0027, \u0027mahamoodtp@grandhyper.com\u0027, \u0027vishal@grandhyper.com\u0027, \u0027abbas@grandhyper.com\u0027, \u0027nizarpk@grandhyper.com\u0027, \u0027rinaz.belhaj@zedeyelabs.com\u0027, \u0027rahul.malani@zedeyelabs.com\u0027, \u0027sarvesh.rao@zedeyelabs.com\u0027, \u0027sairaghava@zedeyelabs.com\u0027]\n\n"
+        "msg": "Traceback (most recent call last):\n  File \"/tmp/zeppelin_pyspark-6536787062396359992.py\", line 299, in \u003cmodule\u003e\n    raise Exception(traceback.format_exc())\nException: Traceback (most recent call last):\n  File \"/tmp/zeppelin_pyspark-6536787062396359992.py\", line 292, in \u003cmodule\u003e\n    exec(code)\n  File \"\u003cstdin\u003e\", line 41, in \u003cmodule\u003e\nNameError: name \u0027df_Mini\u0027 is not defined\n\n"
       },
       "dateCreated": "Apr 9, 2018 6:11:15 AM",
-      "dateStarted": "May 27, 2018 2:26:41 AM",
-      "dateFinished": "May 27, 2018 2:27:07 AM",
-      "status": "FINISHED",
+      "dateStarted": "Jun 3, 2018 6:38:45 AM",
+      "dateFinished": "Jun 3, 2018 6:38:45 AM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
